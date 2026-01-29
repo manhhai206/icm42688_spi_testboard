@@ -30,17 +30,26 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-#define AXIS 2   // 1 pitch, 2 roll, 3 yaw
+
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+static volatile uint8_t spi_data_ready = 0;
+static volatile uint8_t spi_busy = 0;
+static void icm42688_spi_dma_done(void *arg)
+{
+    SPI_CS_High(0);
+    spi_data_ready = 1;
+    spi_busy = 0;
+}
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-static void icm42688_spi_dma_done(void *arg);
+static uint8_t spi_tx_buf[15];
+static uint8_t spi_rx_buf[15];
+
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -54,26 +63,13 @@ DMA_HandleTypeDef hdma_spi1_tx;
 TIM_HandleTypeDef htim1;
 
 /* USER CODE BEGIN PV */
-#if AXIS != 1
-static icm42688_i2c_drv_t imu;
-static I2c_ConfigType drv = { 0 };
-I2c_InitConfigType init
-	= { .type = I2C_CHANNEL_3,
-		.mode = I2C_MODE_POLLING };
-#endif
-
 static icm42688_spi_drv_t imu2;
 static Spi_ConfigType drv2 = { 0 };
 Spi_InitConfigType init2 = {
 		.type = SPI_CHANNEL_1,
 		.mode = SPI_MODE_DMA,
 		.cb = icm42688_spi_dma_done,
-		.cb_arg = NULL };
-
-static volatile uint8_t spi_data_ready = 0;
-static volatile uint8_t spi_busy = 0;
-static uint8_t spi_tx_buf[15];
-static uint8_t spi_rx_buf[15];
+		.cb_arg = &imu2 };
 
 void icm42688_start_read_spi_dma(icm42688_spi_drv_t *dev)
 {
@@ -82,8 +78,6 @@ void icm42688_start_read_spi_dma(icm42688_spi_drv_t *dev)
     SPI_CS_Low(0);
     SPI_TransmitReceive(dev->hspi, spi_tx_buf, spi_rx_buf, 15, 0);
 }
-
-
 
 void icm42688_parse_spi_data(icm42688_spi_drv_t *imu)
 {
@@ -100,10 +94,16 @@ void icm42688_parse_spi_data(icm42688_spi_drv_t *imu)
     imu->data.gz = (int16_t)((buf[12] << 8) | buf[13]);
 }
 
-static void icm42688_spi_dma_done(void *arg)
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-    SPI_CS_High(0);
-    spi_data_ready = 1;
+    if (htim == &htim1)
+    {
+        if (!spi_busy)
+        {
+            spi_busy = 1;
+            icm42688_start_read_spi_dma(&imu2);
+        }
+    }
 }
 
 
@@ -164,18 +164,12 @@ int main(void)
   MX_SPI1_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-//  HAL_TIM_Base_Start_IT(&htim1);
-
-#if AXIS != 1
-    I2C_Init(&drv, &init);
-    imu.hi2c = &drv;
-    icm42688_drv_init(&imu);
-#endif
+  HAL_TIM_Base_Start_IT(&htim1);
   SPI_Init(&drv2, &init2);
   HAL_Delay(10);
   imu2.hspi = &drv2;
   icm42688_drv_init_spi(&imu2);
-
+  icm42688_start_read_spi_dma(&imu2);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -185,17 +179,11 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  if (!spi_busy)
-	  {
-		  icm42688_start_read_spi_dma(&imu2);
-		  spi_busy = 1;
-	  }
-	  if (spi_data_ready)
-	  {
-		  icm42688_parse_spi_data(&imu2);
-		  spi_data_ready = 0;
-		  spi_busy = 0;
-	  }
+	    if (spi_data_ready)
+	    {
+	        spi_data_ready = 0;
+	        icm42688_parse_spi_data(&imu2);
+	    }
   }
   /* USER CODE END 3 */
 }
@@ -373,9 +361,9 @@ static void MX_TIM1_Init(void)
 
   /* USER CODE END TIM1_Init 1 */
   htim1.Instance = TIM1;
-  htim1.Init.Prescaler = 200-1;
+  htim1.Init.Prescaler = 50-1;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 250-1;
+  htim1.Init.Period = 1000-1;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;

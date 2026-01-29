@@ -76,8 +76,8 @@ uint8_t icm42688_drv_init_spi(icm42688_spi_drv_t *hand)
     uint8_t who = icm42688_checkWhoAmI_spi(hand);
     if (who == ICM42688_DEFAULT_WHOAMI)
     {
-    	icm42688_setGyroConfig_spi(hand, ICM42688_SPI_GYRO_FS_2000, ICM42688_SPI_GYRO_1KHZ);
-    	icm42688_setAccelConfig_spi(hand, ICM42688_SPI_ACCEL_FS_16G,  ICM42688_SPI_ACCEL_1KHZ);
+    	icm42688_setGyroConfig_spi(hand, ICM42688_SPI_GYRO_FS_2000, ICM42688_SPI_GYRO_32KHZ);
+    	icm42688_setAccelConfig_spi(hand, ICM42688_SPI_ACCEL_FS_2G,  ICM42688_SPI_ACCEL_32KHZ);
 
     	icm42688_setGyroAccelConfig0_spi(hand);
 
