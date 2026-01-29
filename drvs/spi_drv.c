@@ -13,16 +13,13 @@
  * Internal Channel Configuration
  * ============================================ */
 extern SPI_HandleTypeDef hspi1;
-
 struct Spi_Handle_s
 {
 	SPI_HandleTypeDef *hal;
 };
 
 static struct Spi_Handle_s spi1_handle;
-
 static Spi_ConfigType *Spi_ChannelConfig[SPI_CHANNEL_TOTAL] = { 0 };
-
 /* =========================================================
  * Private Function
  * ========================================================= */
@@ -169,6 +166,7 @@ void SPI_CS_Low(uint8_t Channel)
 {
 	GPIO_WriteChannel(Channel, GPIO_LOW);
 }
+
 /******************************************************************
  * @brief Register SPI channel
  ******************************************************************/
@@ -206,5 +204,4 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
     if ((cfg->mode == SPI_MODE_IT) ||
         (cfg->mode == SPI_MODE_DMA))
         cfg->cb(cfg->cb_arg);
-
 }

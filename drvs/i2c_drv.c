@@ -13,20 +13,17 @@
  * Internal Channel Configuration
  * ============================================ */
 extern I2C_HandleTypeDef hi2c3;
-
 struct I2c_Handle_s
 {
     I2C_HandleTypeDef *hal;  
 };
-
 static struct I2c_Handle_s i2c3_handle;
-
 static I2c_ConfigType *I2c_ChannelConfig[I2C_CHANNEL_TOTAL] = { 0 };
+
 /* =========================================================
  * Private Function
  * ========================================================= */
 static I2C_Status_t I2c_Register (I2c_ConfigType *ConfigPtr, I2C_DRV_HARDWARE type);
-
 static inline I2c_Handle *
 I2c_GetHandle(const I2c_ConfigType *ConfigPtr)
 {
@@ -84,16 +81,18 @@ I2C_Status_t I2C_MemRead(I2c_ConfigType *ConfigPtr, uint16_t devAddr, uint16_t m
         case I2C_MODE_POLLING:
             return (HAL_I2C_Mem_Read(handle->hal, devAddr, memAddr, memAddrSize, data, size, timeout) == HAL_OK)
                    ? I2C_OK : I2C_ERROR;
+
         case I2C_MODE_IT:
             return (HAL_I2C_Mem_Read_IT(handle->hal, devAddr, memAddr, memAddrSize, data, size) == HAL_OK)
                    ? I2C_OK : I2C_ERROR;
+
         case I2C_MODE_DMA:
             return (HAL_I2C_Mem_Read_DMA(handle->hal, devAddr, memAddr, memAddrSize, data, size) == HAL_OK)
                    ? I2C_OK : I2C_ERROR;
+
         default:
             break;
     }
-
     return I2C_ERROR;
 }
 
@@ -105,16 +104,18 @@ I2C_Status_t I2C_MasterWrite(I2c_ConfigType *ConfigPtr, uint16_t devAddr, uint8_
         case I2C_MODE_POLLING:
             return (HAL_I2C_Master_Transmit(handle->hal, devAddr, data, size, timeout) == HAL_OK)
                    ? I2C_OK : I2C_ERROR;
+
         case I2C_MODE_IT:
             return (HAL_I2C_Master_Transmit_IT(handle->hal, devAddr, data, size) == HAL_OK)
                    ? I2C_OK : I2C_ERROR;
+
         case I2C_MODE_DMA:
             return (HAL_I2C_Master_Transmit_DMA(handle->hal, devAddr, data, size) == HAL_OK)
                    ? I2C_OK : I2C_ERROR;
+
         default:
             break;
     }
-
     return I2C_ERROR;
 }
 
@@ -126,16 +127,18 @@ I2C_Status_t I2C_MasterRead(I2c_ConfigType *ConfigPtr, uint16_t devAddr, uint8_t
         case I2C_MODE_POLLING:
             return (HAL_I2C_Master_Receive(handle->hal, devAddr, data, size, timeout) == HAL_OK)
                    ? I2C_OK : I2C_ERROR;
+
         case I2C_MODE_IT:
             return (HAL_I2C_Master_Receive_IT(handle->hal, devAddr, data, size) == HAL_OK)
                     ? I2C_OK : I2C_ERROR;
+
         case I2C_MODE_DMA:
             return (HAL_I2C_Master_Receive_DMA(handle->hal, devAddr, data, size) == HAL_OK)
                    ? I2C_OK : I2C_ERROR;
+
         default:
             break;
     }
-
     return I2C_ERROR;
 }
 

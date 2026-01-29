@@ -34,6 +34,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/i2c_drv.h \
  /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/icm42688_i2c_drv.h \
  /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/../../drvs/Inc/i2c_drv.h \
+ /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/icm42688_typedef.h \
  /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/spi_drv.h \
  /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/icm42688_spi_drv.h \
  /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/../../drvs/Inc/spi_drv.h
@@ -73,6 +74,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/i2c_drv.h:
 /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/icm42688_i2c_drv.h:
 /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/../../drvs/Inc/i2c_drv.h:
+/home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/icm42688_typedef.h:
 /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/spi_drv.h:
 /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/icm42688_spi_drv.h:
 /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/../../drvs/Inc/spi_drv.h:

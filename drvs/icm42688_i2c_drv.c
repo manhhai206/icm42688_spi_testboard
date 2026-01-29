@@ -40,7 +40,7 @@ uint8_t icm42688_drv_init (icm42688_i2c_drv_t *hand)
 		return I2C_ERROR;
 
 	uint8_t who = icm42688_checkWhoAmI(hand);
-	if (who == ICM42688_DEFAULT_WHOAMI)
+	if (who == ICM42688_VALUE_WHOAMI)
 	{
 		icm42688_setRegisterBank(hand, BANK_0);
 		imc42688_setPowerMode(hand, GYRO_LOWNOISE, ACCEL_LOWNOISE);

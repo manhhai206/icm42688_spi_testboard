@@ -67,13 +67,13 @@ static icm42688_spi_drv_t imu2;
 static Spi_ConfigType drv2 = { 0 };
 Spi_InitConfigType init2 = {
 		.type = SPI_CHANNEL_1,
-		.mode = SPI_MODE_DMA,
+		.mode = SPI_MODE_POLLING,
 		.cb = icm42688_spi_dma_done,
 		.cb_arg = &imu2 };
 
 void icm42688_start_read_spi_dma(icm42688_spi_drv_t *dev)
 {
-    spi_tx_buf[0] = ICM42688_SPI_TEMP_DATA1 | ICM42688_SPI_READ;
+    spi_tx_buf[0] = ICM42688_TEMP_DATA1 | ICM42688_SPI_READ;
     memset(&spi_tx_buf[1], 0x00, 14);
     SPI_CS_Low(0);
     SPI_TransmitReceive(dev->hspi, spi_tx_buf, spi_rx_buf, 15, 0);
@@ -179,11 +179,12 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	    if (spi_data_ready)
-	    {
-	        spi_data_ready = 0;
-	        icm42688_parse_spi_data(&imu2);
-	    }
+//	    if (spi_data_ready)
+//	    {
+//	        spi_data_ready = 0;
+//	        icm42688_parse_spi_data(&imu2);
+//	    }
+	  icm42688_read_spi(&imu2);
   }
   /* USER CODE END 3 */
 }

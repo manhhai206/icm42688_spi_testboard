@@ -1,6 +1,7 @@
 drvs/icm42688_spi_drv.o: ../drvs/icm42688_spi_drv.c \
  /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/icm42688_spi_drv.h \
  /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/../../drvs/Inc/spi_drv.h \
+ /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/icm42688_typedef.h \
  ../Core/Inc/main.h ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h \
  ../Core/Inc/stm32h7xx_hal_conf.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc.h \
@@ -36,6 +37,7 @@ drvs/icm42688_spi_drv.o: ../drvs/icm42688_spi_drv.c \
  /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/spi_drv.h
 /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/icm42688_spi_drv.h:
 /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/../../drvs/Inc/spi_drv.h:
+/home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/icm42688_typedef.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h:
 ../Core/Inc/stm32h7xx_hal_conf.h:

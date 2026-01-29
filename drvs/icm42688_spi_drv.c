@@ -66,18 +66,18 @@ uint8_t icm42688_drv_init_spi(icm42688_spi_drv_t *hand)
     if (hand == NULL)
         return SPI_ERROR;
 
-    icm42688_setRegisterBank_spi(hand, ICM42688_SPI_BANK_0);
-    icm42688_setPowerMode_spi(hand, ICM42688_SPI_GYRO_LOWNOISE, ICM42688_SPI_ACCEL_LOWNOISE);
+    icm42688_setRegisterBank_spi(hand, BANK_0);
+    icm42688_setPowerMode_spi(hand, GYRO_LOWNOISE, ACCEL_LOWNOISE);
     HAL_Delay(10);
 
-    ICM42688_WriteByte(hand, ICM42688_SPI_SIGNAL_PATH_RESET, 0x01);
+    ICM42688_WriteByte(hand, ICM42688_SIGNAL_PATH_RESET, 0x01);
     HAL_Delay(2);
 
     uint8_t who = icm42688_checkWhoAmI_spi(hand);
-    if (who == ICM42688_DEFAULT_WHOAMI)
+    if (who == ICM42688_VALUE_WHOAMI)
     {
-    	icm42688_setGyroConfig_spi(hand, ICM42688_SPI_GYRO_FS_2000, ICM42688_SPI_GYRO_32KHZ);
-    	icm42688_setAccelConfig_spi(hand, ICM42688_SPI_ACCEL_FS_2G,  ICM42688_SPI_ACCEL_32KHZ);
+    	icm42688_setGyroConfig_spi(hand, GYRO_FS_2000, GYRO_32KHZ);
+    	icm42688_setAccelConfig_spi(hand, ICM42688_ACCEL_FS_2G,  ACCEL_32KHZ);
 
     	icm42688_setGyroAccelConfig0_spi(hand);
 
@@ -94,82 +94,81 @@ uint8_t icm42688_drv_init_spi(icm42688_spi_drv_t *hand)
 uint8_t
 icm42688_checkWhoAmI_spi(icm42688_spi_drv_t *dev)
 {
-    return ICM42688_ReadByte(dev, ICM42688_SPI_WHO_AM_I);
+    return ICM42688_ReadByte(dev, ICM42688_WHO_AM_I);
 }
 
 void
-icm42688_setRegisterBank_spi(icm42688_spi_drv_t *dev,
-                             icm42688_spi_register_bank_sel_t bank)
+icm42688_setRegisterBank_spi(icm42688_spi_drv_t *dev, register_bank_sel_t bank)
 {
-    ICM42688_WriteByte(dev, ICM42688_SPI_REG_BANK_SEL, bank & 0x07);
+    ICM42688_WriteByte(dev, ICM42688_REG_BANK_SEL, bank & 0x07);
 }
 
 void
 icm42688_setPowerMode_spi(icm42688_spi_drv_t *dev,
-                          icm42688_spi_gyro_mode_t gyro_mode,
-                          icm42688_spi_accel_mode_t accel_mode)
+                          gyro_mode_t gyro_mode,
+                          accel_mode_t accel_mode)
 {
     uint8_t value = ((gyro_mode & 0x03) << 2) | (accel_mode & 0x03);
-    ICM42688_WriteByte(dev, ICM42688_SPI_PWR_MGMT0, value);
+    ICM42688_WriteByte(dev, ICM42688_PWR_MGMT0, value);
 }
 
 void
 icm42688_setGyroConfig_spi(icm42688_spi_drv_t *dev,
-                           icm42688_spi_gyro_fs_sel_t gyro_fs,
-                           icm42688_spi_gyro_odr_t gyro_odr)
+                           gyro_fs_sel_t gyro_fs,
+                           gyro_odr_t gyro_odr)
 {
     uint8_t value = ((gyro_fs & 0x07) << 5) | (gyro_odr & 0x0F);
-    ICM42688_WriteByte(dev, ICM42688_SPI_GYRO_CONFIG0, value);
+    ICM42688_WriteByte(dev, ICM42688_GYRO_CONFIG0, value);
 }
 
 void
 icm42688_setGyroAccelConfig0_spi(icm42688_spi_drv_t *dev)
 {
 	uint8_t value = 0x00;
-    ICM42688_WriteByte(dev, ICM42688_SPI_GYRO_ACCEL_CONFIG0, value);
+    ICM42688_WriteByte(dev, ICM42688_GYRO_ACCEL_CONFIG0, value);
 }
 
 void icm42688_setAccelConfig_spi(icm42688_spi_drv_t *dev,
-                                icm42688_spi_accel_fs_sel_t fs,
-                                icm42688_spi_accel_odr_t odr)
+                                accel_fs_sel_t fs,
+                                accel_odr_t odr)
 {
     uint8_t value = ((fs & 0x07) << 5) | (odr & 0x0F);
-    ICM42688_WriteByte(dev, ICM42688_SPI_ACCEL_CONFIG0, value);
+    ICM42688_WriteByte(dev, ICM42688_ACCEL_CONFIG0, value);
 }
 
 void
 icm42688_setFifoConfig_spi(icm42688_spi_drv_t *dev)
 {
-    ICM42688_WriteByte(dev, ICM42688_SPI_FIFO_CONFIG1, 0x00);
+    ICM42688_WriteByte(dev, ICM42688_FIFO_CONFIG1, 0x00);
 }
 
 void
 icm42688_setTMSTConfig_spi(icm42688_spi_drv_t *dev)
 {
 	uint8_t value = 0x01;
-    ICM42688_WriteByte(dev, ICM42688_SPI_TMST_CONFIG, value);
+    ICM42688_WriteByte(dev, ICM42688_TMST_CONFIG, value);
 }
 
 void
 icm42688_setINTConfig_spi(icm42688_spi_drv_t *dev)
 {
 	uint8_t value = 0x18 | 0x03;
-    ICM42688_WriteByte(dev, ICM42688_SPI_INT_CONFIG, value);
+    ICM42688_WriteByte(dev, ICM42688_INT_CONFIG, value);
 }
 
 void
 icm42688_setINTSOURCE0_spi(icm42688_spi_drv_t *dev)
 {
 	uint8_t value = 0x08;
-    ICM42688_WriteByte(dev, ICM42688_SPI_INT_SOURCE0, value);
+    ICM42688_WriteByte(dev, ICM42688_INT_SOURCE0, value);
 }
 
 void
 icm42688_setGyroConfigStatic2_spi(icm42688_spi_drv_t *dev)
 {
-    icm42688_setRegisterBank_spi(dev, ICM42688_SPI_BANK_2);
-    ICM42688_WriteByte(dev, ICM42688_SPI_GYRO_CONFIG_STATIC2, 0x00);
-    icm42688_setRegisterBank_spi(dev, ICM42688_SPI_BANK_0);
+    icm42688_setRegisterBank_spi(dev, BANK_2);
+    ICM42688_WriteByte(dev, ICM42688_GYRO_CONFIG_STATIC2, 0x00);
+    icm42688_setRegisterBank_spi(dev, BANK_0);
 }
 
 void
@@ -177,9 +176,9 @@ icm42688_read_spi(icm42688_spi_drv_t *dev)
 {
     uint8_t buf[14];
 
-    icm42688_setRegisterBank_spi(dev, ICM42688_SPI_BANK_0);
+    icm42688_setRegisterBank_spi(dev, BANK_0);
 
-    ICM42688_ReadNBytes(dev, ICM42688_SPI_TEMP_DATA1, buf, 14);
+    ICM42688_ReadNBytes(dev, ICM42688_TEMP_DATA1, buf, 14);
 
     dev->data.temp = (int16_t)((buf[0] << 8) | buf[1]);
 
