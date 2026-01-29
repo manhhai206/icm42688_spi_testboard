@@ -1,0 +1,2 @@
+../drvs/gpio_drv.c:43:16:GPIO_ReadChannel	24	static
+../drvs/gpio_drv.c:63:6:GPIO_WriteChannel	16	static

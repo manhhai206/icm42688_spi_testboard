@@ -1,0 +1,14 @@
+../drvs/icm42688_i2c_drv.c:16:1:ICM42688_WriteByte	1
+../drvs/icm42688_i2c_drv.c:22:1:ICM42688_ReadByte	1
+../drvs/icm42688_i2c_drv.c:30:1:ICM42688_ReadNBytes	1
+../drvs/icm42688_i2c_drv.c:37:9:icm42688_drv_init	3
+../drvs/icm42688_i2c_drv.c:65:9:icm42688_checkWhoAmI	1
+../drvs/icm42688_i2c_drv.c:70:6:icm42688_setRegisterBank	1
+../drvs/icm42688_i2c_drv.c:79:6:imc42688_setPowerMode	1
+../drvs/icm42688_i2c_drv.c:88:6:icm42688_setGyroConfig	1
+../drvs/icm42688_i2c_drv.c:97:6:icm42688_setGyroAccelConfig0	1
+../drvs/icm42688_i2c_drv.c:109:6:icm42688_setTMSTConfig	1
+../drvs/icm42688_i2c_drv.c:115:6:icm42688_setINTConfig	1
+../drvs/icm42688_i2c_drv.c:121:6:icm42688_setINTSOURCE0	1
+../drvs/icm42688_i2c_drv.c:127:6:icm42688_setGyroConfigStatic2	1
+../drvs/icm42688_i2c_drv.c:133:6:icm42688_read	1
