@@ -1,0 +1,12 @@
+../platform/platform_scheduler.c:10:6:platform_scheduler_1hz	1
+../platform/platform_scheduler.c:14:6:platform_scheduler_5hz	1
+../platform/platform_scheduler.c:18:6:platform_scheduler_10hz	1
+../platform/platform_scheduler.c:22:6:platform_scheduler_25hz	1
+../platform/platform_scheduler.c:26:6:platform_scheduler_50hz	1
+../platform/platform_scheduler.c:30:6:platform_scheduler_100hz	1
+../platform/platform_scheduler.c:34:6:platform_scheduler_250hz	1
+../platform/platform_scheduler.c:38:6:platform_scheduler_500hz	1
+../platform/platform_scheduler.c:42:6:platform_scheduler_1khz	1
+../platform/platform_scheduler.c:46:6:platform_scheduler_2khz	1
+../platform/platform_scheduler.c:50:6:platform_scheduler_4khz	1
+../platform/platform_scheduler.c:54:6:platform_scheduler_8khz	1

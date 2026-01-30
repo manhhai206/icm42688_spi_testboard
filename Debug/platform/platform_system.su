@@ -1,0 +1,4 @@
+../platform/platform_system.c:15:6:platform_system_delay_ms	16	static
+../platform/platform_system.c:19:6:platform_system_init	8	static
+../platform/platform_system.c:23:10:platform_system_millis	4	static
+../platform/platform_system.c:27:10:platform_system_micros	4	static

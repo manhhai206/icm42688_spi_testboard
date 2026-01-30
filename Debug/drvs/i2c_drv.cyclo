@@ -1,7 +1,0 @@
-../drvs/i2c_drv.c:28:1:I2c_GetHandle	1
-../drvs/i2c_drv.c:37:14:I2C_Init	4
-../drvs/i2c_drv.c:51:14:I2C_MemWrite	5
-../drvs/i2c_drv.c:75:14:I2C_MemRead	5
-../drvs/i2c_drv.c:99:14:I2C_MasterWrite	5
-../drvs/i2c_drv.c:122:14:I2C_MasterRead	5
-../drvs/i2c_drv.c:149:1:I2c_Register	4

@@ -1,0 +1,8 @@
+../app/icm42688.c:13:1:icm42688_readwrite	1
+../app/icm42688.c:21:1:icm426888_readbyte	1
+../app/icm42688.c:33:1:icm42688_writebyte	1
+../app/icm42688.c:42:1:icm42688_readNbytes	2
+../app/icm42688.c:53:6:icm42688p_init	3
+../app/icm42688.c:105:6:icm42688p_read_blocking	1
+../app/icm42688.c:127:6:icm42688p_read_dma	2
+../app/icm42688.c:142:6:icm42688_parse_data	2
