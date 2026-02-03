@@ -107,6 +107,16 @@ static int icm42688_spi_hw_init(icm42688_spi_ctx_t *dev)
     icm42688_writebyte(dev, ICM42688_FIFO_CONFIG1, 0x03);
     icm42688_writebyte(dev, ICM42688_TMST_CONFIG, 0x01);
 
+    value = 0x18 | 0x03;
+    icm42688_writebyte(dev, ICM42688_INT_CONFIG, value);
+    // config source0
+    value = 0x08;
+    icm42688_writebyte(dev, ICM42688_INT_SOURCE0, value);
+
+    icm42688_writebyte(dev, ICM42688_REG_BANK_SEL, BANK_2 & 0X07);
+    icm42688_writebyte(dev, ICM42688_GYRO_CONFIG_STATIC2, 0x00);
+    icm42688_writebyte(dev, ICM42688_REG_BANK_SEL, BANK_0 & 0X07);
+    
     return 0;
 }
 

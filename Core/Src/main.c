@@ -28,7 +28,7 @@
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 #define AXIS 2
-#define MEANSURE_FREQ	1
+#define MEANSURE_FREQ	0
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/

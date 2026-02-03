@@ -13,8 +13,8 @@
 /** Macro Declaration
  * -------------------------------------------------------------**/
 #define ICM42688_ADDRESS              0x68
-#define ICM42688_DEFAULT_ADDRESS      (ICM42688_ADDRESS << 1)
-#define ICM42688_VALUE_WHOAMI    0x47
+#define ICM42688_DEFAULT_ADDRESS     (ICM42688_ADDRESS << 1)
+#define ICM42688_VALUE_WHOAMI    	  0x47
 
 /** Typedef structures Declaration
  * -------------------------------------------------------------**/
@@ -204,6 +204,3 @@ int icm42688_create_i2c(imu_t *imu, i2c_port_t port)
 
     return 0;
 }
-
-/** Callback DMA
- * -------------------------------------------------------------**/
