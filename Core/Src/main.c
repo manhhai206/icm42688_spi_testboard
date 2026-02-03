@@ -27,7 +27,8 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+#define AXIS 2
+#define MEANSURE_FREQ	1
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -38,6 +39,14 @@ float imu_data[7];
 float imu_data2[7];
 volatile uint8_t imu1_req = 0;
 volatile uint8_t imu2_req = 0;
+
+#if MEANSURE_FREQ == 1
+volatile uint32_t imu1_req_cnt = 0;
+volatile uint32_t imu1_req_total    = 0;
+volatile uint32_t imu1_accept_total = 0;
+volatile uint32_t imu1_drop_total   = 0;
+#endif
+
 
 /* USER CODE END PD */
 
@@ -65,6 +74,7 @@ TIM_HandleTypeDef htim2;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void PeriphCommonClock_Config(void);
 static void MPU_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
@@ -86,17 +96,33 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
     if (htim == &htim1)
     {
-    	imu1.ops->read(&imu1);
+    	imu1_req = 1;
+#if MEANSURE_FREQ == 1
+    	imu1_req_total++;
+#endif
     }
-
+#if AXIS!=1
     if (htim == &htim2)
     {
-    	imu2.ops->read(&imu2);
+    	imu2_req = 1;
     }
+#endif
 }
 
+#if MEANSURE_FREQ
+void imu1_process(void)
+{
+    if (imu1_req_total == 0)
+        return;
 
+    if (imu1.ops->read(&imu1) == 0)
+        imu1_accept_total++;
+    else
+        imu1_drop_total++;
 
+    imu1_req_total--;
+}
+#endif
 
 /* USER CODE END PFP */
 
@@ -131,6 +157,9 @@ int main(void)
   /* Configure the system clock */
   SystemClock_Config();
 
+  /* Configure the peripherals common clocks */
+  PeriphCommonClock_Config();
+
   /* USER CODE BEGIN SysInit */
 
   /* USER CODE END SysInit */
@@ -145,12 +174,24 @@ int main(void)
   /* USER CODE BEGIN 2 */
   icm42688_create_spi(&imu1, SPI_PORT_1);
   imu1.ops->init(&imu1);
-
+#if AXIS!=1
   icm42688_create_i2c(&imu2, I2C_PORT_3);
   imu2.ops->init(&imu2);
-
+#endif
   HAL_TIM_Base_Start_IT(&htim1);
   HAL_TIM_Base_Start_IT(&htim2);
+
+#if MEANSURE_FREQ
+  uint32_t t0 = HAL_GetTick();
+  while (HAL_GetTick() - t0 < 1000)
+  {
+      imu1_process();
+
+      if (imu1.ops->parse(&imu1, imu_data)){}
+  }
+
+  while(1) {};
+#endif
 
   /* USER CODE END 2 */
 
@@ -161,8 +202,21 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    imu1.ops->parse(&imu1, imu_data);
+	if (imu1_req == 1)
+	{
+		imu1_req = 0;
+		imu1.ops->read(&imu1);
+	}
+#if AXIS!=1
+	if (imu2_req == 1)
+	{
+		imu2_req = 0;
+		imu2.ops->read(&imu2);
+	}
+
     imu2.ops->parse(&imu2, imu_data2);
+#endif
+    imu1.ops->parse(&imu1, imu_data);
   }
   /* USER CODE END 3 */
 }
@@ -182,19 +236,21 @@ void SystemClock_Config(void)
 
   /** Configure the main internal regulator output voltage
   */
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE0);
 
   while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.HSIState = RCC_HSI_DIV1;
+  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLM = 3;
-  RCC_OscInitStruct.PLL.PLLN = 100;
+  RCC_OscInitStruct.PLL.PLLN = 120;
   RCC_OscInitStruct.PLL.PLLP = 2;
   RCC_OscInitStruct.PLL.PLLQ = 4;
   RCC_OscInitStruct.PLL.PLLR = 2;
@@ -219,7 +275,25 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV2;
   RCC_ClkInitStruct.APB4CLKDivider = RCC_APB4_DIV2;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+}
+
+/**
+  * @brief Peripherals Common Clock Configuration
+  * @retval None
+  */
+void PeriphCommonClock_Config(void)
+{
+  RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
+
+  /** Initializes the peripherals clock
+  */
+  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_CKPER;
+  PeriphClkInitStruct.CkperClockSelection = RCC_CLKPSOURCE_HSI;
+  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
   {
     Error_Handler();
   }
@@ -241,7 +315,7 @@ static void MX_I2C3_Init(void)
 
   /* USER CODE END I2C3_Init 1 */
   hi2c3.Instance = I2C3;
-  hi2c3.Init.Timing = 0x10C0ECFF;
+  hi2c3.Init.Timing = 0x307075B1;
   hi2c3.Init.OwnAddress1 = 0;
   hi2c3.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
   hi2c3.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
@@ -296,7 +370,7 @@ static void MX_SPI1_Init(void)
   hspi1.Init.CLKPolarity = SPI_POLARITY_HIGH;
   hspi1.Init.CLKPhase = SPI_PHASE_2EDGE;
   hspi1.Init.NSS = SPI_NSS_SOFT;
-  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_128;
+  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_4;
   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -342,7 +416,7 @@ static void MX_TIM1_Init(void)
   htim1.Instance = TIM1;
   htim1.Init.Prescaler = 200-1;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 63-1;
+  htim1.Init.Period = 125-1;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
@@ -389,7 +463,7 @@ static void MX_TIM2_Init(void)
   htim2.Instance = TIM2;
   htim2.Init.Prescaler = 200-1;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 90-1;
+  htim2.Init.Period = 250-1;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
