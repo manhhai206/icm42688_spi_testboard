@@ -34,3 +34,5 @@ void platform_spi_cs_low (void)
 {
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, RESET);
 }
+
+

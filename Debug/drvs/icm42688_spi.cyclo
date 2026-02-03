@@ -1,0 +1,12 @@
+../drvs/icm42688_spi.c:37:1:icm42688_readwrite	1
+../drvs/icm42688_spi.c:45:1:icm42688_readbyte	1
+../drvs/icm42688_spi.c:58:1:icm42688_writebyte	1
+../drvs/icm42688_spi.c:67:1:icm42688_readNbytes	2
+../drvs/icm42688_spi.c:78:12:icm42688_spi_hw_init	2
+../drvs/icm42688_spi.c:113:12:icm42688_spi_read_dma	2
+../drvs/icm42688_spi.c:130:13:icm42688_parse_spi_data	2
+../drvs/icm42688_spi.c:151:12:icm42688_spi_init_wrap	1
+../drvs/icm42688_spi.c:156:12:icm42688_spi_read_wrap	1
+../drvs/icm42688_spi.c:161:13:icm42688_spi_parse_wrap	1
+../drvs/icm42688_spi.c:175:5:icm42688_create_spi	2
+../drvs/icm42688_spi.c:195:6:icm42688_spi_dma_done	3

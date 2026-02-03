@@ -11,5 +11,6 @@ char platform_init ()
 {
 	platform_system_init();
 	platform_spi_init();
+	platform_i2c_init();
 	return 0;
 }

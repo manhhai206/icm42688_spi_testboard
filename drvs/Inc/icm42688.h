@@ -9,19 +9,12 @@
 #define INC_ICM42688_H_
 
 #include <stdint.h>
-#include <string.h>
 #include <stdbool.h>
 #include "platform.h"
+#include "imu.h"
 
-/** Macro Declaration
+/** Typedef Declaration
  * -------------------------------------------------------------**/
-#define ICM42688_SPI_READ   0x80
-#define ICM42688_SPI_WRITE  0x7F
-
-#define ICM42688_ADDRESS              0x68
-#define ICM42688_DEFAULT_ADDRESS      (ICM42688_ADDRESS << 1)
-#define ICM42688_VALUE_WHOAMI         0x47
-
 typedef enum
 {
     ICM42688_INT_CONFIG              = 0x14,
@@ -135,19 +128,10 @@ typedef enum
     ACCEL_12_5HZ  = 0x0B
 } accel_odr_t;
 
-typedef struct {
-	uint8_t spi_tx_buffer[15];
-	uint8_t spi_rx_buffer[15];
-	spi_port_t spi_port;
-	volatile uint8_t spi_busy;
-	volatile uint8_t data_ready;
-} icm42688p_t;
-
-void icm42688p_init(icm42688p_t *icm42688p, uint8_t Ascale, uint8_t Gscale,
-		uint8_t AODR, uint8_t GODR, uint8_t aMode, uint8_t gMode, bool CLKIN);
-void icm42688p_read_blocking(icm42688p_t *icm42688p, float *data);
-void icm42688p_read_dma(icm42688p_t *dev);
-bool icm42688_parse_data(icm42688p_t *dev, float *data);
-
+/** Public Functions
+ * -------------------------------------------------------------**/
+int icm42688_create_spi(imu_t *imu, spi_port_t port);
+int icm42688_create_i2c(imu_t *imu, i2c_port_t port);
+void icm42688_spi_dma_done(spi_port_t port);
 
 #endif /* INC_ICM42688_H_ */

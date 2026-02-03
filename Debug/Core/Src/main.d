@@ -31,11 +31,10 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_spi_ex.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h \
- /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/app/Inc/app.h \
+ /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/imu.h \
+ /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/icm42688.h \
  /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/platform/Inc/platform.h \
- /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/platform/Inc/pubsub.h \
- /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/app/Inc/icm42688.h \
- /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/app/Inc/scheduler.h
+ /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/imu.h
 ../Core/Inc/main.h:
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h:
 ../Core/Inc/stm32h7xx_hal_conf.h:
@@ -69,8 +68,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_spi_ex.h:
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h:
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h:
-/home/manhhai/Desktop/test_gimbal_v4_spi_i2c/app/Inc/app.h:
+/home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/imu.h:
+/home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/icm42688.h:
 /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/platform/Inc/platform.h:
-/home/manhhai/Desktop/test_gimbal_v4_spi_i2c/platform/Inc/pubsub.h:
-/home/manhhai/Desktop/test_gimbal_v4_spi_i2c/app/Inc/icm42688.h:
-/home/manhhai/Desktop/test_gimbal_v4_spi_i2c/app/Inc/scheduler.h:
+/home/manhhai/Desktop/test_gimbal_v4_spi_i2c/drvs/Inc/imu.h:

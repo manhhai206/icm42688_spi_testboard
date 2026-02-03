@@ -1,3 +1,0 @@
-../app/scheduler.c:15:5:sched_add_task	2
-../app/scheduler.c:28:6:sched_init	2
-../app/scheduler.c:35:6:sched_run	4

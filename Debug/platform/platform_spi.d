@@ -31,8 +31,7 @@ platform/platform_spi.o: ../platform/platform_spi.c \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_spi.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_spi_ex.h \
  ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h \
- ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h \
- /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/platform/Inc/pubsub.h
+ ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h
 /home/manhhai/Desktop/test_gimbal_v4_spi_i2c/platform/Inc/platform.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h:
@@ -67,4 +66,3 @@ platform/platform_spi.o: ../platform/platform_spi.c \
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_spi_ex.h:
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h:
 ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h:
-/home/manhhai/Desktop/test_gimbal_v4_spi_i2c/platform/Inc/pubsub.h:

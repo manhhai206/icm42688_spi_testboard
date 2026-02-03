@@ -1,0 +1,12 @@
+../drvs/icm42688_i2c.c:33:1:icm42688_i2c_writebyte	1
+../drvs/icm42688_i2c.c:39:1:icm42688_i2c_readbyte	1
+../drvs/icm42688_i2c.c:47:1:icm42688_i2c_readNbyte	1
+../drvs/icm42688_i2c.c:54:12:icm42688_i2c_hw_init	2
+../drvs/icm42688_i2c.c:109:12:icm42688p_read_i2c_blocking	1
+../drvs/icm42688_i2c.c:133:12:icm42688_i2c_read_dma	1
+../drvs/icm42688_i2c.c:142:13:icm42688_parse_i2c_data	1
+../drvs/icm42688_i2c.c:160:12:icm42688_i2c_init_wrap	1
+../drvs/icm42688_i2c.c:165:12:icm42688_i2c_read_wrap	1
+../drvs/icm42688_i2c.c:170:13:icm42688_i2c_parse_wrap	1
+../drvs/icm42688_i2c.c:175:12:icm42688_i2c_read_blocking_wrap	1
+../drvs/icm42688_i2c.c:190:5:icm42688_create_i2c	2

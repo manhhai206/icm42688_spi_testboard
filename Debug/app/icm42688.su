@@ -1,8 +1,0 @@
-../app/icm42688.c:13:1:icm42688_readwrite	24	static
-../app/icm42688.c:21:1:icm426888_readbyte	24	static
-../app/icm42688.c:33:1:icm42688_writebyte	16	static
-../app/icm42688.c:42:1:icm42688_readNbytes	32	static
-../app/icm42688.c:53:6:icm42688p_init	24	static
-../app/icm42688.c:105:6:icm42688p_read_blocking	48	static
-../app/icm42688.c:127:6:icm42688p_read_dma	16	static
-../app/icm42688.c:142:6:icm42688_parse_data	40	static
